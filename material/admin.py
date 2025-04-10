@@ -1,3 +1,5 @@
 from django.contrib import admin
+from material.models import Material, ProjectMaterial
 
-# Register your models here.
+admin.site.register(Material)
+admin.site.register(ProjectMaterial)
