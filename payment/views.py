@@ -13,4 +13,4 @@ def user_payments_view(request):
     else:
         payments = Payment.objects.none()
 
-    return render(request, 'payments/user_payments.html', {'payments': payments})
+    return render(request, 'get_payments.html', {'payments': payments})
