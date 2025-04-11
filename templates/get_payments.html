@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Your Payments</h2>
+
+    {% if payments %}
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th>Amount</th>
+                <th>Payment Date</th>
+                <th>Method</th>
+                <th>Counterparty</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in payments %}
+            <tr>
+                <td>{{ payment.project.name }}</td>
+                <td>Ksh {{ payment.amount }}</td>
+                <td>{{ payment.payment_date }}</td>
+                <td>{{ payment.get_method_display }}</td>
+                <td>
+                    {% if user.user_type == 'client' %}
+                    {{ payment.payee.get_full_name|default:payment.payee.username }}
+                    {% else %}
+                    {{ payment.payer.get_full_name|default:payment.payer.username }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No payments found.</p>
+    {% endif %}
+</div>
+{% endblock %}
