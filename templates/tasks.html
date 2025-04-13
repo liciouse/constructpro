@@ -1,0 +1,16 @@
+{% block content %}
+<div class="container mt-4">
+    <h2>Create Project & First Task</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <h4>Project Info</h4>
+        {{ project_form.as_p }}
+
+        <h4>First Task Info</h4>
+        {{ task_form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Create Project & Task</button>
+    </form>
+</div>
+{% endblock %}
