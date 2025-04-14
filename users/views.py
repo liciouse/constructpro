@@ -1,16 +1,15 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.contrib import messages
 from project.models import Project
-
-def index(request):
-    return render(request, 'index.html')
+from payment.models import Payment
 
 
 def index(request):
     return render(request, 'index.html')
+
 
 @login_required(login_url='/login/')
 def client_dashboard(request):
@@ -18,11 +17,19 @@ def client_dashboard(request):
 
     status_data = list(projects.values('status').annotate(count=Count('id')))
     priority_data = list(projects.values('priority').annotate(count=Count('id')))
+     # Payment history (grouped by method)
+    payments = Payment.objects.filter(payer=request.user)
+    payment_data = list(payments.values('method').annotate(count=Count('id')))
 
     return render(request, 'client_dashboard.html', {
         'status_data': status_data,
-        'priority_data': priority_data
+        'priority_data': priority_data,
+        'payment_data': payment_data,
     })
+
+def logout_view(request):
+    logout(request)  
+    return redirect('index')
 
 def contractor_dashboard(request):
     return render(request,'contractor_dashboard.html')

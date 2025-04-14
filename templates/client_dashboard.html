@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Dashboard | FCMS</title>
+    <link rel="stylesheet" href="{% static 'css/make_payment.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base Styles */
@@ -535,17 +537,13 @@
                     <i class="fas fa-tasks"></i>
                     <span>Progress Tracking</span>
                 </a>
-                <a href="#" class="menu-item">
+                <a href="/make/payment/" class="menu-item">
                     <i class="fas fa-file-invoice-dollar"></i>
                     <span>Make Payments</span>
                 </a>
                 <a href="#" class="menu-item">
                     <i class="fas fa-comments"></i>
                     <span>Contractor Communication</span>
-                </a>
-                <a href="#" class="menu-item">
-                    <i class="fas fa-bell"></i>
-                    <span>Notifications & Updates</span>
                 </a>
                 <a href="#" class="menu-item">
                     <i class="fas fa-comment-alt"></i>
@@ -577,7 +575,7 @@
                         <div class="dropdown-menu">
                             <a href="#"><i class="fas fa-user"></i> My Profile</a>
                             <div class="dropdown-divider"></div>
-                            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            <a href="/logout/"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </div>
                     </div>
                 </div>
@@ -720,6 +718,11 @@
                     </div>
                 </div>
             </div>
+            {{ payment_data|json_script:"payment-data" }}
+            
+            {% load static %}
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{% static 'javascript/client_dashboard.js' %}"></script>
 
             <!-- Activities Row -->
             <div class="activity-row">
@@ -826,10 +829,7 @@
                         <p>Need assistance with your project? Choose from our communication options:</p>
                         <div class="communication-buttons">
                             <button class="btn btn-primary">
-                                <i class="fas fa-comment"></i> Live Chat with Team
-                            </button>
-                            <button class="btn btn-primary">
-                                <i class="fas fa-robot"></i> AI Chatbot Assistance
+                                <i class="fas fa-comment"></i> send message
                             </button>
                         </div>
                     </div>

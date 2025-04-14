@@ -48,3 +48,46 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Canvas #projectProgressChart not found");
     }
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Client Dashboard JS loaded");
+
+    // Payment History Chart
+    const paymentScript = document.getElementById('payment-data');
+    if (paymentScript) {
+        const paymentData = JSON.parse(paymentScript.textContent);
+        const paymentLabels = paymentData.map(item => item.method);
+        const paymentCounts = paymentData.map(item => item.count);
+        const paymentColors = {
+            mpesa: '#1cc88a',
+            bank: '#4e73df',
+            cash: '#f6c23e'
+        };
+        const colorSet = paymentLabels.map(label => paymentColors[label] || '#858796');
+
+        const paymentCtx = document.getElementById('paymentHistoryChart');
+        if (paymentCtx) {
+            new Chart(paymentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: paymentLabels,
+                    datasets: [{
+                        data: paymentCounts,
+                        backgroundColor: colorSet
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Payment Methods Distribution'
+                        }
+                    }
+                }
+            });
+        }
+    }
+});
+

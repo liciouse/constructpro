@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Project, Task, User
 
-@login_required(redirect_field_name='login')
+@login_required(login_url='/login/')
 def create_project_and_task_custom(request):
     if request.method == 'POST':
         # Extract project data
@@ -52,7 +52,7 @@ def create_project_and_task_custom(request):
     return render(request, 'tasks.html', {'contractors': contractors})
 
 
-@login_required
+@login_required(login_url='/login/')
 def project_progress_view(request):
     projects = Project.objects.filter(client=request.user)
 
