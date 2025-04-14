@@ -73,7 +73,7 @@ def project_progress_view(request):
 @login_required
 def download_project_progress_pdf(request):
     if request.user.user_type != 'client':
-        return HttpResponse("Unauthorized", status=403)
+        return redirect('login')
 
     projects = Project.objects.filter(client=request.user)
     status_data = projects.values('status').annotate(count=Count('id'))
