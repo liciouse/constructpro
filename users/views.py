@@ -1,7 +1,9 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from django.contrib import messages
+from project.models import Project
 
 def index(request):
     return render(request, 'index.html')
@@ -10,8 +12,17 @@ def index(request):
 def index(request):
     return render(request, 'index.html')
 
+@login_required(login_url='/login/')
 def client_dashboard(request):
-    return render(request,'client_dashboard.html')
+    projects = Project.objects.filter(client=request.user)
+
+    status_data = list(projects.values('status').annotate(count=Count('id')))
+    priority_data = list(projects.values('priority').annotate(count=Count('id')))
+
+    return render(request, 'client_dashboard.html', {
+        'status_data': status_data,
+        'priority_data': priority_data
+    })
 
 def contractor_dashboard(request):
     return render(request,'contractor_dashboard.html')

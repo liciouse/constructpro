@@ -1,9 +1,9 @@
-# views.py
+from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Project, Task, User
 
-@login_required
+@login_required(redirect_field_name='login')
 def create_project_and_task_custom(request):
     if request.method == 'POST':
         # Extract project data
@@ -50,3 +50,18 @@ def create_project_and_task_custom(request):
 
     contractors = User.objects.filter(user_type='contractor')
     return render(request, 'tasks.html', {'contractors': contractors})
+
+
+@login_required
+def project_progress_view(request):
+    projects = Project.objects.filter(client=request.user)
+
+    # Convert QuerySet to list of dicts so it's JSON serializable
+    status_data = list(projects.values('status').annotate(count=Count('id')))
+    priority_data = list(projects.values('priority').annotate(count=Count('id')))
+    print(staticmethod)
+
+    return render(request, 'progress.html', {
+        'status_data': status_data,
+        'priority_data': priority_data
+    })

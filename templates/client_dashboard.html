@@ -531,7 +531,7 @@
                     <i class="fas fa-folder"></i>
                     <span>Project Requests</span>
                 </a>
-                <a href="#"class="menu-item">
+                <a href="/project/progress/"class="menu-item">
                     <i class="fas fa-tasks"></i>
                     <span>Progress Tracking</span>
                 </a>
@@ -702,6 +702,12 @@
                         </div>
                     </div>
                 </div>
+                {{ status_data|json_script:"status-data" }}
+                {{ priority_data|json_script:"priority-data" }}
+                
+                {% load static %}
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script src="{% static 'javascript/client_dashboard.js' %}"></script>
 
                 <div class="card">
                     <div class="card-header">
