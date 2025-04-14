@@ -48,8 +48,6 @@ def client_dashboard(request):
     projects = Project.objects.filter(client=request.user)
     status_data = list(projects.values('status').annotate(count=Count('id')))
     priority_data = list(projects.values('priority').annotate(count=Count('id')))
-
-    # Payment history (grouped by method)
     payments = Payment.objects.filter(payer=request.user)
     payment_data = list(payments.values('method').annotate(count=Count('id')))
 
