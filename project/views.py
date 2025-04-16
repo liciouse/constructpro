@@ -123,3 +123,22 @@ def download_project_progress_pdf(request):
     p.save()
 
     return response
+
+
+
+@login_required(login_url='/login/')
+def user_projects_view(request):
+    user = request.user
+
+    if user.user_type == 'client':
+        # Show projects where the user is the client
+        projects = Project.objects.filter(client=user)
+    elif user.user_type == 'contractor':
+        # Show projects where the user has tasks assigned
+        projects = Project.objects.filter(task__assigned_to=user).distinct()
+    else:
+        projects = Project.objects.none()  # Empty queryset for other types
+
+    return render(request, 'user_projects.html', {
+        'projects': projects
+    })

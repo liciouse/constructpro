@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.contrib import messages
-from project.models import Project
+from project.models import Project, Task
 from payment.models import Payment
 
 
@@ -31,8 +31,29 @@ def logout_view(request):
     logout(request)  
     return redirect('index')
 
+
+@login_required(login_url='/login/')
 def contractor_dashboard(request):
-    return render(request,'contractor_dashboard.html')
+    # Get all tasks assigned to the logged-in contractor
+    assigned_tasks = Task.objects.filter(assigned_to=request.user).select_related('project')
+
+    # Extract related projects
+    project_ids = assigned_tasks.values_list('project_id', flat=True).distinct()
+    projects = Project.objects.filter(id__in=project_ids)
+
+    # Project status breakdown
+    status_data = list(projects.values('status').annotate(count=Count('id')))
+    priority_data = list(projects.values('priority').annotate(count=Count('id')))
+
+    # Payment history (as payee for contractor)
+    payments = Payment.objects.filter(payee=request.user)
+    payment_data = list(payments.values('method').annotate(count=Count('id')))
+
+    return render(request, 'contractor_dashboard.html', {
+        'status_data': status_data,
+        'priority_data': priority_data,
+        'payment_data': payment_data,
+    })
 
 
 def login_view(request):
