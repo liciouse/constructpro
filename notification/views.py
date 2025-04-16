@@ -6,6 +6,8 @@ import requests
 from django.http import JsonResponse
 import json
 import os
+from dotenv import load_dotenv
+load_dotenv()
 from .models import ChatSession
 from django.views.decorators.csrf import csrf_exempt
 
@@ -79,9 +81,9 @@ def chat_completion(request):
                     {
                         "role": "system",
                         "content": (
-                            "You are a health assistant. You ONLY provide responses related to health, "
-                            "such as stress management, anxiety relief, therapy, self-care, and emotional well-being. "
-                            "If the user asks an unrelated question, gently redirect the conversation to health topics."
+                            "You are a construction assistant. You ONLY provide responses related to construction, "
+                            "such as construction management, building techniques, project planning, materials, safety standards, "
+                            "and trends in the construction industry. If the user asks an unrelated question, gently redirect the conversation to construction topics."
                         )
                     },
                     {"role": "user", "content": user_message}
