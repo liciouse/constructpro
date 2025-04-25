@@ -73,7 +73,7 @@ def login_view(request):
             elif user.user_type == "sub_contractor":  
                 return redirect("sub_contractor-dashboard")
             elif user.is_superuser:
-                return redirect("admin-dashboard")
+                return render(request, "/admin")
             else:
                 messages.error(request, "Unauthorized access")
                 return render(request, '/admin')  

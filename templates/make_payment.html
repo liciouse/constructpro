@@ -228,7 +228,7 @@
         </div>
 
         <div class="payment-total">
-            <span>Total Payment: <strong id="totalAmount">$0.00</strong></span>
+            <span>Total Payment: <strong id="totalAmount">KSH 0.00</strong></span>
         </div>
 
         <button class="payment-submit" type="submit">
@@ -252,7 +252,7 @@
 
             function updateTotal() {
                 let value = parseFloat(amountField.value) || 0;
-                totalAmount.textContent = '$' + value.toFixed(2);
+                totalAmount.textContent = 'Ksh ' + value.toFixed(2);
             }
         }
     });
