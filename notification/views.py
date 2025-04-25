@@ -62,7 +62,7 @@ def chat_completion(request):
             total_messages = len(chat_session.conversation)
 
             # If user is on a free plan and exceeds 5 messages, AI suggests upgrading
-            if request.user.plan == "free" and total_messages >= 5:
+            if  total_messages >= 5:
                 premium_message = (
                     "You have reached the free chat limit. "
                     "Upgrade to premium for unlimited access: "
