@@ -102,7 +102,7 @@ DATABASES = {
             default=os.getenv('DATABASE_URL')
         )
     }
-print(f"DEBUG is {DEBUG}, using PostgreSQL")
+
 
 
 # Password validation
